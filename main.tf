@@ -122,9 +122,9 @@ resource "azurerm_storage_share_directory" "vault" {
 
 # Upload files
 resource "azurerm_storage_share_file" "example" {
-  name             = "vault-policy.hcl"
+  name             = "vault-config.hcl"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = file("vault-policy.hcl")
+  source           = file("vault-config.hcl")
 }
 
 # User Identity
