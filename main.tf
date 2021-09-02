@@ -185,24 +185,7 @@ resource "azurerm_key_vault_key" "vault-key" {
 
 # Command to create container instance
 
-output "container_create" { 
-    sensitive = true
-    value = <<EOF
-az container create --resource-group ${azurerm_resource_group.vault.name} \
-  --name ${local.vault_name} --image vault:1.5.3 \
-  --command-line 'vault server -config /vault/vault-config.hcl' \
-  --dns-name-label ${local.vault_name} --ports 8200 \
-  --azure-file-volume-account-name ${local.storage_account_name} \
-  --azure-file-volume-share-name vault-data \
-  --azure-file-volume-account-key ${azurerm_storage_account.vault.primary_access_key} \
-  --azure-file-volume-mount-path /vault \
-  --assign-identity ${azurerm_user_assigned_identity.vault.id} \
-  --environment-variables AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} \
-  VAULT_AZUREKEYVAULT_VAULT_NAME=${local.key_vault_name} \
-  VAULT_AZUREKEYVAULT_KEY_NAME=vault-key 
-EOF
-}
-output "container_updated" {
+output "container_create" {
   value     = <<EOF
 az container create \
   --name manojvaultaci1 --image vault:1.5.3 \
@@ -217,34 +200,13 @@ az container create \
 EOF
 }
 
-output "resource_group_name" {
-  value = <<EOF
-  --resource-group ${azurerm_resource_group.vault.name} \
-EOF
-}
-
-output "primary_access_key" {
-  sensitive = true
-  value     = <<EOF
-  --azure-file-volume-account-key ${azurerm_storage_account.vault.primary_access_key} \
-EOF
-}
-
 output "user_assigned_identity" {
   value = <<EOF
   --assign-identity ${azurerm_user_assigned_identity.vault.id} \
 EOF
 }
-output "environment_variables_list" {
-  value = <<EOF
-  --environment-variables AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} \
-  VAULT_AZUREKEYVAULT_VAULT_NAME=manojkeyvault1 \
-  VAULT_AZUREKEYVAULT_KEY_NAME=vault-key 
-EOF
-}
 
 # Environment variables to set
-
 output "environment_variables" {
   value     = <<EOF
 export VAULT_ADDR="https://${local.vault_name}.${var.location}.azurecontainer.io:8200"

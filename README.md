@@ -3,7 +3,15 @@ Host Hashicorp Vault on Azure Container Instances using Terraform Cloud
 
 ## Login and select subscription
 az login<br/>
-az account set -s<br/>
+az account list<br/>
+az account set --subscription="SUBSCRIPTION_ID"<br/>
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/SUBSCRIPTION_ID"<br/>
+
+## Set Terraform env variables
+ARM_SUBSCRIPTION_ID = "SUBSCRIPTION_ID"<br/>
+ARM_CLIENT_ID = "appId"<br/>
+ARM_CLIENT_SECRET = "password"<br/>
+ARM_TENANT_ID = "tenant"<br/>
 
 ## Deploy Terraform stuff
 terraform init<br/>
