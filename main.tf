@@ -130,13 +130,15 @@ resource "azurerm_storage_share_file" "vault_config_file" {
 resource "azurerm_storage_share_file" "vault_cert_crt" {
   name             = "vault-cert.crt"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = tls_self_signed_cert.cert.cert_pem
+  source           = file("vault-cert.crt")
+  path             = azurerm_storage_share_directory.vault.name
 }
 
 resource "azurerm_storage_share_file" "vault_cert_key" {
   name             = "vault-cert.key"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = tls_self_signed_cert.cert.cert_pem
+  source           = file("vault-cert.key")
+  path             = azurerm_storage_share_directory.vault.name
 }
 # User Identity
 
@@ -204,7 +206,7 @@ resource "azurerm_key_vault_key" "vault-key" {
 # Command to create container instance
 
 output "container_create" {
-  value     = <<EOF
+  value = <<EOF
 az container create \
   --name manojvaultaci1 --image vault:1.5.3 \
   --command-line 'vault server -config /vault/vault-config.hcl' \
@@ -226,7 +228,7 @@ EOF
 
 # Environment variables to set
 output "environment_variables" {
-  value     = <<EOF
+  value = <<EOF
 export VAULT_ADDR="https://${local.vault_name}.${var.location}.azurecontainer.io:8200"
 export VAULT_SKIP_VERIFY=true
 EOF
