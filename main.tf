@@ -166,7 +166,7 @@ resource "azurerm_key_vault" "vault" {
     object_id = azurerm_user_assigned_identity.vault.principal_id
 
     key_permissions = [
-      "get", "list", "create", "delete", "update", "wrapKey", "unwrapKey", "purge"
+      "get", "list", "create", "delete", "update", "wrapKey", "unwrapKey", "purge", "recover",
     ]
 
   }
@@ -176,7 +176,7 @@ resource "azurerm_key_vault" "vault" {
     object_id = data.azurerm_client_config.current.object_id
 
     key_permissions = [
-      "get", "list", "create", "delete", "update", "wrapKey", "unwrapKey", "purge"
+      "get", "list", "create", "delete", "update", "wrapKey", "unwrapKey", "purge", "recover",
     ]
 
   }
