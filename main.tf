@@ -225,12 +225,6 @@ az container create \
 EOF
 }
 
-output "user_assigned_identity" {
-  value = <<EOF
-  --assign-identity ${azurerm_user_assigned_identity.vault.id} \
-EOF
-}
-
 output "container_delete" {
   value = "az container delete --resource-group ${azurerm_resource_group.vault.name} --name ${local.vault_name}"
 }
