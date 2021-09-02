@@ -121,12 +121,23 @@ resource "azurerm_storage_share_directory" "vault" {
 }
 
 # Upload files
-resource "azurerm_storage_share_file" "example" {
+resource "azurerm_storage_share_file" "vault_config_file" {
   name             = "vault-config.hcl"
   storage_share_id = azurerm_storage_share.vault.id
   source           = file("vault-config.hcl")
 }
 
+resource "azurerm_storage_share_file" "vault_cert_crt" {
+  name             = "vault-cert.crt"
+  storage_share_id = azurerm_storage_share.vault.id
+  source           = tls_self_signed_cert.cert.cert_pem
+}
+
+resource "azurerm_storage_share_file" "vault_cert_key" {
+  name             = "vault-cert.key"
+  storage_share_id = azurerm_storage_share.vault.id
+  source           = tls_self_signed_cert.cert.cert_pem
+}
 # User Identity
 
 resource "azurerm_user_assigned_identity" "vault" {
