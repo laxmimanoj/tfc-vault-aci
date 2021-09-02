@@ -21,30 +21,30 @@ az storage file upload --account-name sa_name --share-name vault-data --source v
 ## Set the environment variables using the Terraform output
 
 ## Verify Vault connectivity
-vault status
+vault status<br/>
 
 ## If this is the first launch, initialize the Vault
-vault operator init -recovery-shares=1 -recovery-threshold=1 
-Recovery Key 1: /xLDzx/etBugxLhg7QduBAWJQhKIu+IgY8mqKxkFePg=
+vault operator init -recovery-shares=1 -recovery-threshold=1<br/>
+Recovery Key 1: <br/>
 
-Initial Root Token: s.irEGPURgGV1pJFOqnR9cgycm
-vault operator unseal
+Initial Root Token: <br/>
+vault operator unseal <br/>
 
 ## Make note of the Recovery Key and Root Token
 
-vault login
+vault login<br/>
 
-vault secrets enable kv
+vault secrets enable kv<br/>
 
-vault kv put kv-v2/tacos meat=chicken
+vault kv put kv-v2/tacos meat=chicken<br/>
 
-vault kv get kv-v2/tacos
+vault kv get kv-v2/tacos<br/>
 
 ## Delete the container using the Terraform output when you're done
 
 ## Delete the files in the cert directory if you plan to delete everything
-az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.crt
-az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.key
+az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.crt<br/>
+az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.key<br/>
 
 ## Destroy the terraform resources
-terraform destroy -auto-approve
+terraform destroy -auto-approve<br/>
