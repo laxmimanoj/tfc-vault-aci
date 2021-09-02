@@ -124,20 +124,20 @@ resource "azurerm_storage_share_directory" "vault" {
 resource "azurerm_storage_share_file" "vault_config_file" {
   name             = "vault-config.hcl"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = file("vault-config.hcl")
+  source           = "vault-config.hcl"
 }
 
 resource "azurerm_storage_share_file" "vault_cert_crt" {
   name             = "vault-cert.crt"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = file("vault-cert.crt")
+  source           = "vault-cert.crt"
   path             = azurerm_storage_share_directory.vault.name
 }
 
 resource "azurerm_storage_share_file" "vault_cert_key" {
   name             = "vault-cert.key"
   storage_share_id = azurerm_storage_share.vault.id
-  source           = file("vault-cert.key")
+  source           = "vault-cert.key"
   path             = azurerm_storage_share_directory.vault.name
 }
 # User Identity
