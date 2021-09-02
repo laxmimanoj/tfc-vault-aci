@@ -80,11 +80,18 @@ resource "local_file" "key" {
   filename = "${path.module}/vault-cert.key"
 }
 
+output "key" {
+  value = tls_private_key.private.private_key_pem
+}
+
 resource "local_file" "cert" {
   content  = tls_self_signed_cert.cert.cert_pem
   filename = "${path.module}/vault-cert.crt"
 }
 
+output "cert" {
+  value = tls_self_signed_cert.cert.cert_pem
+}
 # Resource group
 
 resource "azurerm_resource_group" "vault" {
