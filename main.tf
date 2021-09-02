@@ -80,19 +80,11 @@ resource "local_file" "key" {
   filename = "${path.module}/vault-cert.key"
 }
 
-output "key" {
-  sensitive = true
-  value = tls_private_key.private.private_key_pem
-}
-
 resource "local_file" "cert" {
   content  = tls_self_signed_cert.cert.cert_pem
   filename = "${path.module}/vault-cert.crt"
 }
 
-output "cert" {
-  value = tls_self_signed_cert.cert.cert_pem
-}
 # Resource group
 
 resource "azurerm_resource_group" "vault" {
@@ -126,6 +118,13 @@ resource "azurerm_storage_share_directory" "vault" {
   name                 = "certs"
   share_name           = azurerm_storage_share.vault.name
   storage_account_name = azurerm_storage_account.vault.name
+}
+
+# Upload files
+resource "azurerm_storage_share_file" "example" {
+  name             = "vault-policy.hcl"
+  storage_share_id = azurerm_storage_share.vault.id
+  source           = file("vault-policy.hcl")
 }
 
 # User Identity
