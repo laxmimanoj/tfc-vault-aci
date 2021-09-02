@@ -13,17 +13,6 @@ ARM_CLIENT_ID = "appId"<br/>
 ARM_CLIENT_SECRET = "password"<br/>
 ARM_TENANT_ID = "tenant"<br/>
 
-## Deploy Terraform stuff
-terraform init<br/>
-terraform apply -auto-approve<br/>
-
-## Update the storage account name from the Terraform output
-sa_name=STORAGE_ACCOUNT_NAME<br>
-
-az storage file upload --account-name sa_name --share-name vault-data --source vault-config.hcl<br/>
-az storage file upload --account-name sa_name --share-name vault-data --source vault-cert.crt --path certs<br/>
-az storage file upload --account-name sa_name --share-name vault-data --source vault-cert.key --path certs<br/>
-
 ## Launch the container using the Terraform output
 
 ## Set the environment variables using the Terraform output
@@ -49,10 +38,3 @@ vault kv put kv-v2/tacos meat=chicken<br/>
 vault kv get kv-v2/tacos<br/>
 
 ## Delete the container using the Terraform output when you're done
-
-## Delete the files in the cert directory if you plan to delete everything
-az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.crt<br/>
-az storage file delete --account-name $sa_name --share-name vault-data --path certs/vault-cert.key<br/>
-
-## Destroy the terraform resources
-terraform destroy -auto-approve<br/>

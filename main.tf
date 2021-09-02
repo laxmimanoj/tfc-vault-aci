@@ -121,6 +121,7 @@ resource "azurerm_storage_share_directory" "vault" {
 }
 
 # Upload files
+
 resource "azurerm_storage_share_file" "vault_config_file" {
   name             = "vault-config.hcl"
   storage_share_id = azurerm_storage_share.vault.id
@@ -140,6 +141,7 @@ resource "azurerm_storage_share_file" "vault_cert_key" {
   source           = "vault-cert.key"
   path             = azurerm_storage_share_directory.vault.name
 }
+
 # User Identity
 
 resource "azurerm_user_assigned_identity" "vault" {
@@ -226,18 +228,14 @@ output "user_assigned_identity" {
 EOF
 }
 
+output "container_delete" {
+  value = "az container delete --resource-group ${azurerm_resource_group.vault.name} --name ${local.vault_name}"
+}
+
 # Environment variables to set
 output "environment_variables" {
   value = <<EOF
 export VAULT_ADDR="https://${local.vault_name}.${var.location}.azurecontainer.io:8200"
 export VAULT_SKIP_VERIFY=true
 EOF
-}
-
-output "storage_accountName" {
-  value = local.storage_account_name
-}
-
-output "container_delete" {
-  value = "az container delete --resource-group ${azurerm_resource_group.vault.name} --name ${local.vault_name}"
 }
