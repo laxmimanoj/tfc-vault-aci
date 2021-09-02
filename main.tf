@@ -13,7 +13,7 @@ terraform {
 
 variable "prefix" {
   type    = string
-  default = "aci"
+  default = "manoj"
 }
 
 variable "location" {
@@ -34,11 +34,11 @@ provider "azurerm" {
 ##########################################################################
 
 locals {
-  vault_name           = "manojvaultaci1"
-  resource_group_name  = "manojhashicorprg1"
-  storage_account_name = "manojsa11"
-  key_vault_name       = "manojkeyvault1"
-  user_identity_name   = "manojvaultidentity11"
+  vault_name           = "dev${var.prefix}vault"
+  resource_group_name  = "${var.prefix}HashicorpRG"
+  storage_account_name = "dev${var.prefix}sa"
+  key_vault_name       = "dev${var.prefix}keyvault"
+  user_identity_name   = "dev${var.prefix}vaultidentity"
 }
 
 data "azurerm_client_config" "current" {}
