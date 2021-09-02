@@ -81,7 +81,7 @@ resource "local_file" "key" {
 }
 
 output "key" {
-  sensitive = false
+  sensitive = true
   value = tls_private_key.private.private_key_pem
 }
 
