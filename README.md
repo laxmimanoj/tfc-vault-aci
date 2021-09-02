@@ -23,18 +23,14 @@ vault status<br/>
 ## If this is the first launch, initialize the Vault
 vault operator init -recovery-shares=1 -recovery-threshold=1<br/>
 Recovery Key 1: <br/>
-
 Initial Root Token: <br/>
 vault operator unseal <br/>
 
 ## Make note of the Recovery Key and Root Token
 
 vault login<br/>
-
 vault secrets enable kv<br/>
-
 vault kv put kv-v2/tacos meat=chicken<br/>
-
 vault kv get kv-v2/tacos<br/>
 
 ## Delete the container using the Terraform output when you're done

@@ -210,14 +210,17 @@ resource "azurerm_key_vault_key" "vault-key" {
 output "container_create" {
   value = <<EOF
 az container create \
-  --name manojvaultaci1 --image vault:1.5.3 \
+  --resource-group ${azurerm_resource_group.vault.name} \
+  --name ${local.vault_name} --image vault:1.5.3 \
   --command-line 'vault server -config /vault/vault-config.hcl' \
-  --dns-name-label manojvaultaci1 --ports 8200 \
-  --azure-file-volume-account-name manojsa11 \
+  --dns-name-label ${local.vault_name} --ports 8200 \
+  --azure-file-volume-account-name ${local.storage_account_name} \
+  --azure-file-volume-account-key replace-with-storage-access-key \
   --azure-file-volume-share-name vault-data \
+  --assign-identity ${azurerm_user_assigned_identity.vault.id} \
   --azure-file-volume-mount-path /vault \
   --environment-variables AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} \
-  VAULT_AZUREKEYVAULT_VAULT_NAME=manojkeyvault1 \
+  VAULT_AZUREKEYVAULT_VAULT_NAME=${local.key_vault_name} \
   VAULT_AZUREKEYVAULT_KEY_NAME=vault-key 
 EOF
 }
