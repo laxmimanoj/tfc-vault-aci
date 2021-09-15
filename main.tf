@@ -22,8 +22,8 @@ variable "location" {
 }
 
 variable "tags" {
-  type = map
-  default = {created_by = "terraform_cloud"}
+  type    = map(any)
+  default = { created_by = "terraform_cloud" }
 }
 
 ##########################################################################
@@ -95,7 +95,7 @@ resource "local_file" "cert" {
 resource "azurerm_resource_group" "vault" {
   name     = local.resource_group_name
   location = var.location
-  tags = var.tags
+  tags     = var.tags
 }
 
 # Storage account for persistence
@@ -106,7 +106,7 @@ resource "azurerm_storage_account" "vault" {
   location                 = azurerm_resource_group.vault.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-tags = var.tags
+  tags                     = var.tags
 }
 
 # Storage account share
@@ -115,7 +115,6 @@ resource "azurerm_storage_share" "vault" {
   name                 = "vault-data"
   storage_account_name = azurerm_storage_account.vault.name
   quota                = 50
-tags = var.tags
 }
 
 # Storage account directory
@@ -124,7 +123,7 @@ resource "azurerm_storage_share_directory" "vault" {
   name                 = "certs"
   share_name           = azurerm_storage_share.vault.name
   storage_account_name = azurerm_storage_account.vault.name
-  tags = var.tags
+  tags                 = var.tags
 }
 
 # Upload files
@@ -167,7 +166,7 @@ resource "azurerm_key_vault" "vault" {
   tenant_id                  = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days = 7
   purge_protection_enabled   = false
-  tags = var.tags
+  tags                       = var.tags
 
   sku_name = "standard"
 
