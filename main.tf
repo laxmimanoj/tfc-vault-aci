@@ -154,6 +154,7 @@ resource "azurerm_user_assigned_identity" "vault" {
   location            = azurerm_resource_group.vault.location
 
   name = local.user_identity_name
+  tags = var.tags
 }
 
 # Key Vault
