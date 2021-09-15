@@ -123,7 +123,6 @@ resource "azurerm_storage_share_directory" "vault" {
   name                 = "certs"
   share_name           = azurerm_storage_share.vault.name
   storage_account_name = azurerm_storage_account.vault.name
-  tags                 = var.tags
 }
 
 # Upload files
